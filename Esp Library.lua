@@ -1,12 +1,29 @@
 
---made by marshadow#2336. if you cant contact that mist.#4452 is my friends tag.
-
+--made by marshadow#2336
 local module = {}
 local espindex = {}
 local esps = {
 	
 }
-holder = game.CoreGui
+holder = game.Players.LocalPlayer.PlayerGui
+if not game:GetService("RunService"):IsStudio() then
+	holder = game.CoreGui
+end
+function initmodule(shouldupdatemanually)
+	if not shouldupdatemanually then
+		game:GetService("RunService").RenderStepped:Connect(function()
+			pcall(function()
+				local pos = game:GetService("Players").LocalPlayer.Character:GetPivot().Position
+				for i, v in pairs(espindex) do
+					local suc,err = pcall(function()
+						local mag = (pos-v.Part.CFrame.Position).magnitude
+						v.TextLabel.Text = v.Name .. " ["..math.round(mag).."]" 
+					end)
+				end
+			end)
+		end)
+	end
+end
 function init(foldername)
 	local fold = Instance.new("Folder",holder)
 	esps[foldername] = {Folder = fold, ScreenGui = Instance.new('ScreenGui', fold)};
@@ -19,7 +36,8 @@ function find(v)
 end
 --[[
 	local lol = require(game.ReplicatedStorage.ModuleScript);
-	local lol2 = lol.init("esptest");
+	lol.initmodule(false)
+	local lol2 = lol.init("esptest",false);
 	local part = workspace.Trinkets.Part;
 	lol.createesp({PrimaryPart = part, Name = "trinket", Color = Color3.fromRGB(65, 255, 160), Transparency = 0.75, UseChams = true}, part, lol2)
 ]]
@@ -64,8 +82,10 @@ function createesp(options, char, esp)
 end
 
 module.init = init
+module.initmodule = initmodule
 module.createesp = createesp
 module.find = find
 module.espindex = espindex;
 module.esps = esps;
 return module
+
