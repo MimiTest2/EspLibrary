@@ -1,14 +1,12 @@
-
---made by marshadow#2336
 local module = {}
 local espindex = {}
 local esps = {
 	
 }
 holder = game.Players.LocalPlayer.PlayerGui
-if not game:GetService("RunService"):IsStudio() then
+pcall(function()
 	holder = game.CoreGui
-end
+end)
 function initmodule(shouldupdatemanually)
 	if not shouldupdatemanually then
 		game:GetService("RunService").RenderStepped:Connect(function()
@@ -39,13 +37,16 @@ end
 	lol.initmodule(false)
 	local lol2 = lol.init("esptest",false);
 	local part = workspace.Trinkets.Part;
-	lol.createesp({PrimaryPart = part, Name = "trinket", Color = Color3.fromRGB(65, 255, 160), Transparency = 0.75, UseChams = true}, part, lol2)
+	lol.createesp({PrimaryPart = part, Name = "trinket",  Font = Enum.Font.Ubuntu, Size = UDim2.new(0, 100, 0, 100), TextSize = 15, Color = Color3.fromRGB(65, 255, 160), Transparency = 0.75, UseChams = true}, part, lol2)
 ]]
 function createesp(options, char, esp)
 	if not options then
 		options = {}
 		options.PrimaryPart = char.PrimaryPart;
 		options.Name = char.Name
+		options.TextSize = 15;
+		options.Font = Enum.Font.Ubuntu;
+		options.Size = UDim2.new(0, 100, 0, 100);
 		options.Color = Color3.fromRGB(65, 255, 160);
 		options.Transparency = 0.75;
 		options.UseChams = true;
@@ -70,9 +71,9 @@ function createesp(options, char, esp)
 	TextLabel.Parent = BillboardGui
 	TextLabel.BackgroundTransparency = 1
 	TextLabel.Position = UDim2.new(0, 0, 0, -50)
-	TextLabel.Size = UDim2.new(0, 100, 0, 100)
-	TextLabel.Font = Enum.Font.Ubuntu
-	TextLabel.TextSize = 15
+	TextLabel.Size = options.Size
+	TextLabel.Font = options.Font
+	TextLabel.TextSize = options.TextSize
 	TextLabel.TextColor3 = Color3.new(1, 1, 1)
 	TextLabel.TextStrokeTransparency = 0
 	TextLabel.TextYAlignment = Enum.TextYAlignment.Bottom
@@ -88,4 +89,3 @@ module.find = find
 module.espindex = espindex;
 module.esps = esps;
 return module
-
