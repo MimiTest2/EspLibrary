@@ -22,7 +22,7 @@
                                 pcall(function()
                                     v.Highlight.Enabled = esps[v.Folder.Name].Enabled;
                                 end)
-        						local mag = (pos-v.Part.CFrame.Position).magnitude
+        						local mag = (pos-v.Character:GetPivot().Position).magnitude
         						v.TextLabel.Text = v.Name .. " ["..math.round(mag).."]" 
                                 pcall(function()
                                     if not esps[v.Folder.Name].Enabled then
@@ -53,9 +53,9 @@
         --[[
         	local lol = require(game.ReplicatedStorage.ModuleScript);
         	lol.initmodule(false)
-        	local lol2 = lol.init("esptest",false);
+        	local playerlib = lol.init("esptest",false);
         	local part = workspace.Trinkets.Part;
-        	lol.createesp({PrimaryPart = part, Name = "trinket",  Font = Enum.Font.Ubuntu, Size = UDim2.new(0, 100, 0, 100), TextSize = 15, Color = Color3.fromRGB(65, 255, 160), Transparency = 0.75, UseChams = true}, part, lol2)
+        	lol.createesp({PrimaryPart = part, Name = "trinket",  Font = Enum.Font.Ubuntu, Size = UDim2.new(0, 100, 0, 100), TextSize = 15, Color = Color3.fromRGB(65, 255, 160), Transparency = 0.75, UseChams = true}, part, playerlib)
         ]]
         function createesp(options, char, esp)
         	if not options then
@@ -99,7 +99,7 @@
         	TextLabel.Text = "Name: " .. options.Name
         	TextLabel.ZIndex = 10
             indexed[char] = true;
-            espindex[char.Name] = {Part = options.PrimaryPart, Folder = esp.Folder, ESP = esp, Name = options.Name, Highlight = highlight, BillboardGui = BillboardGui, TextLabel = TextLabel}
+            espindex[char.Name] = {Part = options.PrimaryPart, Character = char, Folder = esp.Folder, ESP = esp, Name = options.Name, Highlight = highlight, BillboardGui = BillboardGui, TextLabel = TextLabel}
         end
 
         module.init = init
