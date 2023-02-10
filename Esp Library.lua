@@ -1,7 +1,10 @@
-local module = {}
+        local module = {}
         local espindex = {}
         local esps = {
         
+        }
+        local indexed = {
+
         }
         holder = game.CoreGui
         function initmodule(shouldupdatemanually)
@@ -11,6 +14,11 @@ local module = {}
         				local pos = game:GetService("Players").LocalPlayer.Character:GetPivot().Position
         				for i, v in pairs(espindex) do
         					local suc,err = pcall(function()
+                                if v.BillboardGui.Adornee == nil then
+                                    v.BillboardGui:Destroy()
+                                    pcall(function() v.Highlight:Destroy() end);
+                                    espindex[i] = nil;
+                                end
                                 pcall(function()
                                     v.Highlight.Enabled = esps[v.Folder.Name].Enabled;
                                 end)
@@ -90,6 +98,7 @@ local module = {}
         	TextLabel.TextYAlignment = Enum.TextYAlignment.Bottom
         	TextLabel.Text = "Name: " .. options.Name
         	TextLabel.ZIndex = 10
+            indexed[char] = true;
             espindex[char.Name] = {Part = options.PrimaryPart, Folder = esp.Folder, ESP = esp, Name = options.Name, Highlight = highlight, BillboardGui = BillboardGui, TextLabel = TextLabel}
         end
 
@@ -99,4 +108,5 @@ local module = {}
         module.find = find
         module.espindex = espindex;
         module.esps = esps;
+        module.index = indexed
         return module
